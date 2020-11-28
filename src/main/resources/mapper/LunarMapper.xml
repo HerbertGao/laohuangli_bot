@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.herbertgao.telegram.database.mapper.LunarMapper">
+  <resultMap id="BaseResultMap" type="com.herbertgao.telegram.database.entity.Lunar">
+    <!--@mbg.generated-->
+    <!--@Table lunar-->
+    <id column="GregorianDateTime" jdbcType="DATE" property="gregoriandatetime" />
+    <result column="LunarDateTime" jdbcType="VARCHAR" property="lunardatetime" />
+    <result column="LunarShow" jdbcType="VARCHAR" property="lunarshow" />
+    <result column="IsJieJia" jdbcType="SMALLINT" property="isjiejia" />
+    <result column="LJie" jdbcType="VARCHAR" property="ljie" />
+    <result column="GJie" jdbcType="VARCHAR" property="gjie" />
+    <result column="Yi" jdbcType="VARCHAR" property="yi" />
+    <result column="Ji" jdbcType="VARCHAR" property="ji" />
+    <result column="ShenWei" jdbcType="VARCHAR" property="shenwei" />
+    <result column="Taishen" jdbcType="VARCHAR" property="taishen" />
+    <result column="Chong" jdbcType="VARCHAR" property="chong" />
+    <result column="SuiSha" jdbcType="VARCHAR" property="suisha" />
+    <result column="WuxingJiazi" jdbcType="VARCHAR" property="wuxingjiazi" />
+    <result column="WuxingNaYear" jdbcType="VARCHAR" property="wuxingnayear" />
+    <result column="WuxingNaMonth" jdbcType="VARCHAR" property="wuxingnamonth" />
+    <result column="WuxingNaDay" jdbcType="VARCHAR" property="wuxingnaday" />
+    <result column="MoonName" jdbcType="VARCHAR" property="moonname" />
+    <result column="XingEast" jdbcType="VARCHAR" property="xingeast" />
+    <result column="XingWest" jdbcType="VARCHAR" property="xingwest" />
+    <result column="PengZu" jdbcType="VARCHAR" property="pengzu" />
+    <result column="JianShen" jdbcType="VARCHAR" property="jianshen" />
+    <result column="TianGanDiZhiYear" jdbcType="VARCHAR" property="tiangandizhiyear" />
+    <result column="TianGanDiZhiMonth" jdbcType="VARCHAR" property="tiangandizhimonth" />
+    <result column="TianGanDiZhiDay" jdbcType="VARCHAR" property="tiangandizhiday" />
+    <result column="LMonthName" jdbcType="VARCHAR" property="lmonthname" />
+    <result column="LYear" jdbcType="VARCHAR" property="lyear" />
+    <result column="LMonth" jdbcType="VARCHAR" property="lmonth" />
+    <result column="LDay" jdbcType="VARCHAR" property="lday" />
+    <result column="SolarTermName" jdbcType="VARCHAR" property="solartermname" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    GregorianDateTime, LunarDateTime, LunarShow, IsJieJia, LJie, GJie, Yi, Ji, ShenWei, 
+    Taishen, Chong, SuiSha, WuxingJiazi, WuxingNaYear, WuxingNaMonth, WuxingNaDay, MoonName, 
+    XingEast, XingWest, PengZu, JianShen, TianGanDiZhiYear, TianGanDiZhiMonth, TianGanDiZhiDay, 
+    LMonthName, LYear, LMonth, LDay, SolarTermName
+  </sql>
+  <select id="selectByExample" parameterType="com.herbertgao.telegram.database.entity.LunarExample" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lunar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.time.LocalDate" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from lunar
+    where GregorianDateTime = #{gregoriandatetime,jdbcType=DATE}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.time.LocalDate">
+    <!--@mbg.generated-->
+    delete from lunar
+    where GregorianDateTime = #{gregoriandatetime,jdbcType=DATE}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.herbertgao.telegram.database.entity.LunarExample">
+    <!--@mbg.generated-->
+    delete from lunar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.herbertgao.telegram.database.entity.Lunar">
+    <!--@mbg.generated-->
+    insert into lunar (GregorianDateTime, LunarDateTime, LunarShow, 
+      IsJieJia, LJie, GJie, 
+      Yi, Ji, ShenWei, Taishen, 
+      Chong, SuiSha, WuxingJiazi, 
+      WuxingNaYear, WuxingNaMonth, WuxingNaDay, 
+      MoonName, XingEast, XingWest, 
+      PengZu, JianShen, TianGanDiZhiYear, 
+      TianGanDiZhiMonth, TianGanDiZhiDay, LMonthName, 
+      LYear, LMonth, LDay, 
+      SolarTermName)
+    values (#{gregoriandatetime,jdbcType=DATE}, #{lunardatetime,jdbcType=VARCHAR}, #{lunarshow,jdbcType=VARCHAR}, 
+      #{isjiejia,jdbcType=SMALLINT}, #{ljie,jdbcType=VARCHAR}, #{gjie,jdbcType=VARCHAR}, 
+      #{yi,jdbcType=VARCHAR}, #{ji,jdbcType=VARCHAR}, #{shenwei,jdbcType=VARCHAR}, #{taishen,jdbcType=VARCHAR}, 
+      #{chong,jdbcType=VARCHAR}, #{suisha,jdbcType=VARCHAR}, #{wuxingjiazi,jdbcType=VARCHAR}, 
+      #{wuxingnayear,jdbcType=VARCHAR}, #{wuxingnamonth,jdbcType=VARCHAR}, #{wuxingnaday,jdbcType=VARCHAR}, 
+      #{moonname,jdbcType=VARCHAR}, #{xingeast,jdbcType=VARCHAR}, #{xingwest,jdbcType=VARCHAR}, 
+      #{pengzu,jdbcType=VARCHAR}, #{jianshen,jdbcType=VARCHAR}, #{tiangandizhiyear,jdbcType=VARCHAR}, 
+      #{tiangandizhimonth,jdbcType=VARCHAR}, #{tiangandizhiday,jdbcType=VARCHAR}, #{lmonthname,jdbcType=VARCHAR}, 
+      #{lyear,jdbcType=VARCHAR}, #{lmonth,jdbcType=VARCHAR}, #{lday,jdbcType=VARCHAR}, 
+      #{solartermname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.herbertgao.telegram.database.entity.Lunar">
+    <!--@mbg.generated-->
+    insert into lunar
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gregoriandatetime != null">
+        GregorianDateTime,
+      </if>
+      <if test="lunardatetime != null and lunardatetime != ''">
+        LunarDateTime,
+      </if>
+      <if test="lunarshow != null and lunarshow != ''">
+        LunarShow,
+      </if>
+      <if test="isjiejia != null">
+        IsJieJia,
+      </if>
+      <if test="ljie != null and ljie != ''">
+        LJie,
+      </if>
+      <if test="gjie != null and gjie != ''">
+        GJie,
+      </if>
+      <if test="yi != null and yi != ''">
+        Yi,
+      </if>
+      <if test="ji != null and ji != ''">
+        Ji,
+      </if>
+      <if test="shenwei != null and shenwei != ''">
+        ShenWei,
+      </if>
+      <if test="taishen != null and taishen != ''">
+        Taishen,
+      </if>
+      <if test="chong != null and chong != ''">
+        Chong,
+      </if>
+      <if test="suisha != null and suisha != ''">
+        SuiSha,
+      </if>
+      <if test="wuxingjiazi != null and wuxingjiazi != ''">
+        WuxingJiazi,
+      </if>
+      <if test="wuxingnayear != null and wuxingnayear != ''">
+        WuxingNaYear,
+      </if>
+      <if test="wuxingnamonth != null and wuxingnamonth != ''">
+        WuxingNaMonth,
+      </if>
+      <if test="wuxingnaday != null and wuxingnaday != ''">
+        WuxingNaDay,
+      </if>
+      <if test="moonname != null and moonname != ''">
+        MoonName,
+      </if>
+      <if test="xingeast != null and xingeast != ''">
+        XingEast,
+      </if>
+      <if test="xingwest != null and xingwest != ''">
+        XingWest,
+      </if>
+      <if test="pengzu != null and pengzu != ''">
+        PengZu,
+      </if>
+      <if test="jianshen != null and jianshen != ''">
+        JianShen,
+      </if>
+      <if test="tiangandizhiyear != null and tiangandizhiyear != ''">
+        TianGanDiZhiYear,
+      </if>
+      <if test="tiangandizhimonth != null and tiangandizhimonth != ''">
+        TianGanDiZhiMonth,
+      </if>
+      <if test="tiangandizhiday != null and tiangandizhiday != ''">
+        TianGanDiZhiDay,
+      </if>
+      <if test="lmonthname != null and lmonthname != ''">
+        LMonthName,
+      </if>
+      <if test="lyear != null and lyear != ''">
+        LYear,
+      </if>
+      <if test="lmonth != null and lmonth != ''">
+        LMonth,
+      </if>
+      <if test="lday != null and lday != ''">
+        LDay,
+      </if>
+      <if test="solartermname != null and solartermname != ''">
+        SolarTermName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gregoriandatetime != null">
+        #{gregoriandatetime,jdbcType=DATE},
+      </if>
+      <if test="lunardatetime != null and lunardatetime != ''">
+        #{lunardatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="lunarshow != null and lunarshow != ''">
+        #{lunarshow,jdbcType=VARCHAR},
+      </if>
+      <if test="isjiejia != null">
+        #{isjiejia,jdbcType=SMALLINT},
+      </if>
+      <if test="ljie != null and ljie != ''">
+        #{ljie,jdbcType=VARCHAR},
+      </if>
+      <if test="gjie != null and gjie != ''">
+        #{gjie,jdbcType=VARCHAR},
+      </if>
+      <if test="yi != null and yi != ''">
+        #{yi,jdbcType=VARCHAR},
+      </if>
+      <if test="ji != null and ji != ''">
+        #{ji,jdbcType=VARCHAR},
+      </if>
+      <if test="shenwei != null and shenwei != ''">
+        #{shenwei,jdbcType=VARCHAR},
+      </if>
+      <if test="taishen != null and taishen != ''">
+        #{taishen,jdbcType=VARCHAR},
+      </if>
+      <if test="chong != null and chong != ''">
+        #{chong,jdbcType=VARCHAR},
+      </if>
+      <if test="suisha != null and suisha != ''">
+        #{suisha,jdbcType=VARCHAR},
+      </if>
+      <if test="wuxingjiazi != null and wuxingjiazi != ''">
+        #{wuxingjiazi,jdbcType=VARCHAR},
+      </if>
+      <if test="wuxingnayear != null and wuxingnayear != ''">
+        #{wuxingnayear,jdbcType=VARCHAR},
+      </if>
+      <if test="wuxingnamonth != null and wuxingnamonth != ''">
+        #{wuxingnamonth,jdbcType=VARCHAR},
+      </if>
+      <if test="wuxingnaday != null and wuxingnaday != ''">
+        #{wuxingnaday,jdbcType=VARCHAR},
+      </if>
+      <if test="moonname != null and moonname != ''">
+        #{moonname,jdbcType=VARCHAR},
+      </if>
+      <if test="xingeast != null and xingeast != ''">
+        #{xingeast,jdbcType=VARCHAR},
+      </if>
+      <if test="xingwest != null and xingwest != ''">
+        #{xingwest,jdbcType=VARCHAR},
+      </if>
+      <if test="pengzu != null and pengzu != ''">
+        #{pengzu,jdbcType=VARCHAR},
+      </if>
+      <if test="jianshen != null and jianshen != ''">
+        #{jianshen,jdbcType=VARCHAR},
+      </if>
+      <if test="tiangandizhiyear != null and tiangandizhiyear != ''">
+        #{tiangandizhiyear,jdbcType=VARCHAR},
+      </if>
+      <if test="tiangandizhimonth != null and tiangandizhimonth != ''">
+        #{tiangandizhimonth,jdbcType=VARCHAR},
+      </if>
+      <if test="tiangandizhiday != null and tiangandizhiday != ''">
+        #{tiangandizhiday,jdbcType=VARCHAR},
+      </if>
+      <if test="lmonthname != null and lmonthname != ''">
+        #{lmonthname,jdbcType=VARCHAR},
+      </if>
+      <if test="lyear != null and lyear != ''">
+        #{lyear,jdbcType=VARCHAR},
+      </if>
+      <if test="lmonth != null and lmonth != ''">
+        #{lmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="lday != null and lday != ''">
+        #{lday,jdbcType=VARCHAR},
+      </if>
+      <if test="solartermname != null and solartermname != ''">
+        #{solartermname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.herbertgao.telegram.database.entity.LunarExample" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from lunar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update lunar
+    <set>
+      <if test="record.gregoriandatetime != null">
+        GregorianDateTime = #{record.gregoriandatetime,jdbcType=DATE},
+      </if>
+      <if test="record.lunardatetime != null">
+        LunarDateTime = #{record.lunardatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lunarshow != null">
+        LunarShow = #{record.lunarshow,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isjiejia != null">
+        IsJieJia = #{record.isjiejia,jdbcType=SMALLINT},
+      </if>
+      <if test="record.ljie != null">
+        LJie = #{record.ljie,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gjie != null">
+        GJie = #{record.gjie,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yi != null">
+        Yi = #{record.yi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ji != null">
+        Ji = #{record.ji,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shenwei != null">
+        ShenWei = #{record.shenwei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taishen != null">
+        Taishen = #{record.taishen,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chong != null">
+        Chong = #{record.chong,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suisha != null">
+        SuiSha = #{record.suisha,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wuxingjiazi != null">
+        WuxingJiazi = #{record.wuxingjiazi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wuxingnayear != null">
+        WuxingNaYear = #{record.wuxingnayear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wuxingnamonth != null">
+        WuxingNaMonth = #{record.wuxingnamonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wuxingnaday != null">
+        WuxingNaDay = #{record.wuxingnaday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moonname != null">
+        MoonName = #{record.moonname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xingeast != null">
+        XingEast = #{record.xingeast,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xingwest != null">
+        XingWest = #{record.xingwest,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pengzu != null">
+        PengZu = #{record.pengzu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jianshen != null">
+        JianShen = #{record.jianshen,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tiangandizhiyear != null">
+        TianGanDiZhiYear = #{record.tiangandizhiyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tiangandizhimonth != null">
+        TianGanDiZhiMonth = #{record.tiangandizhimonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tiangandizhiday != null">
+        TianGanDiZhiDay = #{record.tiangandizhiday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lmonthname != null">
+        LMonthName = #{record.lmonthname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lyear != null">
+        LYear = #{record.lyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lmonth != null">
+        LMonth = #{record.lmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lday != null">
+        LDay = #{record.lday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.solartermname != null">
+        SolarTermName = #{record.solartermname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update lunar
+    set GregorianDateTime = #{record.gregoriandatetime,jdbcType=DATE},
+      LunarDateTime = #{record.lunardatetime,jdbcType=VARCHAR},
+      LunarShow = #{record.lunarshow,jdbcType=VARCHAR},
+      IsJieJia = #{record.isjiejia,jdbcType=SMALLINT},
+      LJie = #{record.ljie,jdbcType=VARCHAR},
+      GJie = #{record.gjie,jdbcType=VARCHAR},
+      Yi = #{record.yi,jdbcType=VARCHAR},
+      Ji = #{record.ji,jdbcType=VARCHAR},
+      ShenWei = #{record.shenwei,jdbcType=VARCHAR},
+      Taishen = #{record.taishen,jdbcType=VARCHAR},
+      Chong = #{record.chong,jdbcType=VARCHAR},
+      SuiSha = #{record.suisha,jdbcType=VARCHAR},
+      WuxingJiazi = #{record.wuxingjiazi,jdbcType=VARCHAR},
+      WuxingNaYear = #{record.wuxingnayear,jdbcType=VARCHAR},
+      WuxingNaMonth = #{record.wuxingnamonth,jdbcType=VARCHAR},
+      WuxingNaDay = #{record.wuxingnaday,jdbcType=VARCHAR},
+      MoonName = #{record.moonname,jdbcType=VARCHAR},
+      XingEast = #{record.xingeast,jdbcType=VARCHAR},
+      XingWest = #{record.xingwest,jdbcType=VARCHAR},
+      PengZu = #{record.pengzu,jdbcType=VARCHAR},
+      JianShen = #{record.jianshen,jdbcType=VARCHAR},
+      TianGanDiZhiYear = #{record.tiangandizhiyear,jdbcType=VARCHAR},
+      TianGanDiZhiMonth = #{record.tiangandizhimonth,jdbcType=VARCHAR},
+      TianGanDiZhiDay = #{record.tiangandizhiday,jdbcType=VARCHAR},
+      LMonthName = #{record.lmonthname,jdbcType=VARCHAR},
+      LYear = #{record.lyear,jdbcType=VARCHAR},
+      LMonth = #{record.lmonth,jdbcType=VARCHAR},
+      LDay = #{record.lday,jdbcType=VARCHAR},
+      SolarTermName = #{record.solartermname,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.herbertgao.telegram.database.entity.Lunar">
+    <!--@mbg.generated-->
+    update lunar
+    <set>
+      <if test="lunardatetime != null and lunardatetime != ''">
+        LunarDateTime = #{lunardatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="lunarshow != null and lunarshow != ''">
+        LunarShow = #{lunarshow,jdbcType=VARCHAR},
+      </if>
+      <if test="isjiejia != null">
+        IsJieJia = #{isjiejia,jdbcType=SMALLINT},
+      </if>
+      <if test="ljie != null and ljie != ''">
+        LJie = #{ljie,jdbcType=VARCHAR},
+      </if>
+      <if test="gjie != null and gjie != ''">
+        GJie = #{gjie,jdbcType=VARCHAR},
+      </if>
+      <if test="yi != null and yi != ''">
+        Yi = #{yi,jdbcType=VARCHAR},
+      </if>
+      <if test="ji != null and ji != ''">
+        Ji = #{ji,jdbcType=VARCHAR},
+      </if>
+      <if test="shenwei != null and shenwei != ''">
+        ShenWei = #{shenwei,jdbcType=VARCHAR},
+      </if>
+      <if test="taishen != null and taishen != ''">
+        Taishen = #{taishen,jdbcType=VARCHAR},
+      </if>
+      <if test="chong != null and chong != ''">
+        Chong = #{chong,jdbcType=VARCHAR},
+      </if>
+      <if test="suisha != null and suisha != ''">
+        SuiSha = #{suisha,jdbcType=VARCHAR},
+      </if>
+      <if test="wuxingjiazi != null and wuxingjiazi != ''">
+        WuxingJiazi = #{wuxingjiazi,jdbcType=VARCHAR},
+      </if>
+      <if test="wuxingnayear != null and wuxingnayear != ''">
+        WuxingNaYear = #{wuxingnayear,jdbcType=VARCHAR},
+      </if>
+      <if test="wuxingnamonth != null and wuxingnamonth != ''">
+        WuxingNaMonth = #{wuxingnamonth,jdbcType=VARCHAR},
+      </if>
+      <if test="wuxingnaday != null and wuxingnaday != ''">
+        WuxingNaDay = #{wuxingnaday,jdbcType=VARCHAR},
+      </if>
+      <if test="moonname != null and moonname != ''">
+        MoonName = #{moonname,jdbcType=VARCHAR},
+      </if>
+      <if test="xingeast != null and xingeast != ''">
+        XingEast = #{xingeast,jdbcType=VARCHAR},
+      </if>
+      <if test="xingwest != null and xingwest != ''">
+        XingWest = #{xingwest,jdbcType=VARCHAR},
+      </if>
+      <if test="pengzu != null and pengzu != ''">
+        PengZu = #{pengzu,jdbcType=VARCHAR},
+      </if>
+      <if test="jianshen != null and jianshen != ''">
+        JianShen = #{jianshen,jdbcType=VARCHAR},
+      </if>
+      <if test="tiangandizhiyear != null and tiangandizhiyear != ''">
+        TianGanDiZhiYear = #{tiangandizhiyear,jdbcType=VARCHAR},
+      </if>
+      <if test="tiangandizhimonth != null and tiangandizhimonth != ''">
+        TianGanDiZhiMonth = #{tiangandizhimonth,jdbcType=VARCHAR},
+      </if>
+      <if test="tiangandizhiday != null and tiangandizhiday != ''">
+        TianGanDiZhiDay = #{tiangandizhiday,jdbcType=VARCHAR},
+      </if>
+      <if test="lmonthname != null and lmonthname != ''">
+        LMonthName = #{lmonthname,jdbcType=VARCHAR},
+      </if>
+      <if test="lyear != null and lyear != ''">
+        LYear = #{lyear,jdbcType=VARCHAR},
+      </if>
+      <if test="lmonth != null and lmonth != ''">
+        LMonth = #{lmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="lday != null and lday != ''">
+        LDay = #{lday,jdbcType=VARCHAR},
+      </if>
+      <if test="solartermname != null and solartermname != ''">
+        SolarTermName = #{solartermname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where GregorianDateTime = #{gregoriandatetime,jdbcType=DATE}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.herbertgao.telegram.database.entity.Lunar">
+    <!--@mbg.generated-->
+    update lunar
+    set LunarDateTime = #{lunardatetime,jdbcType=VARCHAR},
+      LunarShow = #{lunarshow,jdbcType=VARCHAR},
+      IsJieJia = #{isjiejia,jdbcType=SMALLINT},
+      LJie = #{ljie,jdbcType=VARCHAR},
+      GJie = #{gjie,jdbcType=VARCHAR},
+      Yi = #{yi,jdbcType=VARCHAR},
+      Ji = #{ji,jdbcType=VARCHAR},
+      ShenWei = #{shenwei,jdbcType=VARCHAR},
+      Taishen = #{taishen,jdbcType=VARCHAR},
+      Chong = #{chong,jdbcType=VARCHAR},
+      SuiSha = #{suisha,jdbcType=VARCHAR},
+      WuxingJiazi = #{wuxingjiazi,jdbcType=VARCHAR},
+      WuxingNaYear = #{wuxingnayear,jdbcType=VARCHAR},
+      WuxingNaMonth = #{wuxingnamonth,jdbcType=VARCHAR},
+      WuxingNaDay = #{wuxingnaday,jdbcType=VARCHAR},
+      MoonName = #{moonname,jdbcType=VARCHAR},
+      XingEast = #{xingeast,jdbcType=VARCHAR},
+      XingWest = #{xingwest,jdbcType=VARCHAR},
+      PengZu = #{pengzu,jdbcType=VARCHAR},
+      JianShen = #{jianshen,jdbcType=VARCHAR},
+      TianGanDiZhiYear = #{tiangandizhiyear,jdbcType=VARCHAR},
+      TianGanDiZhiMonth = #{tiangandizhimonth,jdbcType=VARCHAR},
+      TianGanDiZhiDay = #{tiangandizhiday,jdbcType=VARCHAR},
+      LMonthName = #{lmonthname,jdbcType=VARCHAR},
+      LYear = #{lyear,jdbcType=VARCHAR},
+      LMonth = #{lmonth,jdbcType=VARCHAR},
+      LDay = #{lday,jdbcType=VARCHAR},
+      SolarTermName = #{solartermname,jdbcType=VARCHAR}
+    where GregorianDateTime = #{gregoriandatetime,jdbcType=DATE}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into lunar
+    (GregorianDateTime, LunarDateTime, LunarShow, IsJieJia, LJie, GJie, Yi, Ji, ShenWei, 
+      Taishen, Chong, SuiSha, WuxingJiazi, WuxingNaYear, WuxingNaMonth, WuxingNaDay, 
+      MoonName, XingEast, XingWest, PengZu, JianShen, TianGanDiZhiYear, TianGanDiZhiMonth, 
+      TianGanDiZhiDay, LMonthName, LYear, LMonth, LDay, SolarTermName)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.gregoriandatetime,jdbcType=DATE}, #{item.lunardatetime,jdbcType=VARCHAR}, 
+        #{item.lunarshow,jdbcType=VARCHAR}, #{item.isjiejia,jdbcType=SMALLINT}, #{item.ljie,jdbcType=VARCHAR}, 
+        #{item.gjie,jdbcType=VARCHAR}, #{item.yi,jdbcType=VARCHAR}, #{item.ji,jdbcType=VARCHAR}, 
+        #{item.shenwei,jdbcType=VARCHAR}, #{item.taishen,jdbcType=VARCHAR}, #{item.chong,jdbcType=VARCHAR}, 
+        #{item.suisha,jdbcType=VARCHAR}, #{item.wuxingjiazi,jdbcType=VARCHAR}, #{item.wuxingnayear,jdbcType=VARCHAR}, 
+        #{item.wuxingnamonth,jdbcType=VARCHAR}, #{item.wuxingnaday,jdbcType=VARCHAR}, #{item.moonname,jdbcType=VARCHAR}, 
+        #{item.xingeast,jdbcType=VARCHAR}, #{item.xingwest,jdbcType=VARCHAR}, #{item.pengzu,jdbcType=VARCHAR}, 
+        #{item.jianshen,jdbcType=VARCHAR}, #{item.tiangandizhiyear,jdbcType=VARCHAR}, #{item.tiangandizhimonth,jdbcType=VARCHAR}, 
+        #{item.tiangandizhiday,jdbcType=VARCHAR}, #{item.lmonthname,jdbcType=VARCHAR}, 
+        #{item.lyear,jdbcType=VARCHAR}, #{item.lmonth,jdbcType=VARCHAR}, #{item.lday,jdbcType=VARCHAR}, 
+        #{item.solartermname,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+</mapper>
