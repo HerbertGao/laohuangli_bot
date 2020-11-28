@@ -80,7 +80,7 @@ public class DailySendJobHandler {
     @XxlJob(value = "dailySendJobHandler")
     public ReturnT<String> dailySendJobHandler(String param) {
 
-        String[] params = param.split(",");
+        String[] params = StringUtils.isNotBlank(param) ? param.split(",") : new String[]{};
 
         LocalDate date = params.length > 0 ? LocalDate.parse(params[0], DateTimeFormatter.ofPattern("yyyyMMdd")) : null;
 
