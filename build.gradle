@@ -53,7 +53,7 @@ dependencies {
 
     implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.4'
     implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.1.2'
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.45'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
     // https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter
     implementation group: 'com.alibaba', name: 'druid-spring-boot-starter', version: '1.1.23'
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
