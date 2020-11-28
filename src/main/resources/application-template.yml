@@ -24,6 +24,9 @@ spring:
       validation-query: SELECT 1
       validation-query-timeout: 30000
 
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+
 telegram:
   bot:
     username:
