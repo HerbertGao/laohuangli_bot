@@ -2,6 +2,7 @@ package com.herbertgao.telegram.business.service;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.herbertgao.telegram.bot.Command;
 import com.herbertgao.telegram.bot.Config;
 import com.herbertgao.telegram.database.entity.Lunar;
@@ -81,7 +82,8 @@ public class LaohuangliService {
 
             String randomSeed = LocalDateTimeUtil.format(date, DatePattern.PURE_DATE_PATTERN)
                     + Config.getToken().replace(":", "");
-            List<Yiji> yijiList = yijiService.getDailyYijiRandom(randomSeed);
+            int seed = RandomUtil.createSecureRandom(randomSeed.getBytes()).nextInt();
+            List<Yiji> yijiList = yijiService.getDailyYijiRandom(seed);
             sb.append("宜").append(yijiList.get(0).getYi()).append("，")
                     .append("宜").append(yijiList.get(1).getYi()).append("，")
                     .append("宜").append(yijiList.get(2).getYi()).append("，")
@@ -113,7 +115,8 @@ public class LaohuangliService {
             String randomSeed = LocalDateTimeUtil.format(today, DatePattern.PURE_DATE_PATTERN)
                     + id
                     + Config.getToken().replace(":", "");
-            List<Yiji> yijiList = yijiService.getYijiRandom(randomSeed, 2);
+            int seed = RandomUtil.createSecureRandom(randomSeed.getBytes()).nextInt();
+            List<Yiji> yijiList = yijiService.getYijiRandom(seed, 2);
             StringBuilder sb = new StringBuilder();
             sb.append("宜").append(yijiList.get(0).getYi()).append("，")
                     .append("忌").append(yijiList.get(1).getJi()).append("。");

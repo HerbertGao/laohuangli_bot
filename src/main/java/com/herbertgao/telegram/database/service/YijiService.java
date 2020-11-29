@@ -17,7 +17,7 @@ public class YijiService {
     @Resource
     private YijiMapper mapper;
 
-    public List<Yiji> getDailyYijiRandom(String seed) {
+    public List<Yiji> getDailyYijiRandom(int seed) {
         List<Yiji> result = new ArrayList<>();
 
         // 宜
@@ -45,13 +45,22 @@ public class YijiService {
         return result;
     }
 
-    public List<Yiji> getYijiRandom(String seed, Integer count) {
-        YijiExample example = new YijiExample();
-        example.createCriteria()
-                .andJiIsNotNull();
-        example.setOrderByClause(" rand('" + seed + "') limit " + count + " ");
-
-        return mapper.selectByExample(example);
+    public List<Yiji> getYijiRandom(int seed, Integer count) {
+        List<Yiji> yijiList = new ArrayList<>();
+        int n = 0;
+        while (n < count) {
+            YijiExample example = new YijiExample();
+            YijiExample.Criteria c = example.createCriteria();
+            if (n % 2 == 0) {
+                c.andYiIsNotNull();
+            } else {
+                c.andJiIsNotNull();
+            }
+            example.setOrderByClause(" rand('" + seed + n + "') limit " + 1 + " ");
+            yijiList.addAll(mapper.selectByExample(example));
+            n++;
+        }
+        return yijiList;
     }
 
 }
