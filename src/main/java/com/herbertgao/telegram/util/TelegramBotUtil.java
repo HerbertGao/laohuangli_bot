@@ -5,6 +5,7 @@ import com.herbertgao.telegram.bot.Command;
 import com.herbertgao.telegram.bot.Config;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
  * @program: laohuangli_bot
@@ -59,4 +60,22 @@ public class TelegramBotUtil {
         return message.getChat().isUserChat();
     }
 
+    /**
+     * 获得用户完整姓名
+     *
+     * @param user
+     * @return
+     */
+    public static String getUserFullName(User user) {
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        StringBuilder sb =new StringBuilder();
+        if (StringUtils.isNotBlank(firstName)) {
+            sb.append(firstName).append(" ");
+        }
+        if (StringUtils.isNotBlank(lastName)) {
+            sb.append(lastName);
+        }
+        return sb.toString();
+    }
 }

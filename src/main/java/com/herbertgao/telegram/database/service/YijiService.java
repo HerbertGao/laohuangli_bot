@@ -17,7 +17,7 @@ public class YijiService {
     @Resource
     private YijiMapper mapper;
 
-    public List<Yiji> getYijiRandom(String seed) {
+    public List<Yiji> getDailyYijiRandom(String seed) {
         List<Yiji> result = new ArrayList<>();
 
         // 宜
@@ -44,4 +44,14 @@ public class YijiService {
 
         return result;
     }
+
+    public List<Yiji> getYijiRandom(String seed, Integer count) {
+        YijiExample example = new YijiExample();
+        example.createCriteria()
+                .andJiIsNotNull();
+        example.setOrderByClause(" rand('" + seed + "') limit " + count + " ");
+
+        return mapper.selectByExample(example);
+    }
+
 }

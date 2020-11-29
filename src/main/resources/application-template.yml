@@ -23,6 +23,18 @@ spring:
       test-on-borrow: true
       validation-query: SELECT 1
       validation-query-timeout: 30000
+  redis:
+    database: 0
+    host:
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active:
+        max-wait:
+        max-idle:
+        min-idle:
+    timeout:
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml

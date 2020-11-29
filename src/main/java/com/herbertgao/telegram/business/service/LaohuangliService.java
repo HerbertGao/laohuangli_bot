@@ -1,17 +1,22 @@
 package com.herbertgao.telegram.business.service;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.LocalDateTimeUtil;
+import com.herbertgao.telegram.bot.Command;
 import com.herbertgao.telegram.bot.Config;
 import com.herbertgao.telegram.database.entity.Lunar;
 import com.herbertgao.telegram.database.entity.Yiji;
 import com.herbertgao.telegram.database.service.LogService;
 import com.herbertgao.telegram.database.service.LunarService;
 import com.herbertgao.telegram.database.service.YijiService;
+import com.herbertgao.telegram.util.RedisUtil;
+import com.herbertgao.telegram.util.TelegramBotUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -31,6 +36,9 @@ public class LaohuangliService {
     private LunarService lunarService;
     @Autowired
     private YijiService yijiService;
+
+    @Autowired
+    private RedisUtil redis;
 
     public String getLaohuangli() {
         LocalDate today = LocalDate.now();
@@ -71,8 +79,9 @@ public class LaohuangliService {
                         .append("。\n");
             }
 
-            String randomSeed = date.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + Config.getToken().replace(":", "");
-            List<Yiji> yijiList = yijiService.getYijiRandom(randomSeed);
+            String randomSeed = LocalDateTimeUtil.format(date, DatePattern.PURE_DATE_PATTERN)
+                    + Config.getToken().replace(":", "");
+            List<Yiji> yijiList = yijiService.getDailyYijiRandom(randomSeed);
             sb.append("宜").append(yijiList.get(0).getYi()).append("，")
                     .append("宜").append(yijiList.get(1).getYi()).append("，")
                     .append("宜").append(yijiList.get(2).getYi()).append("，")
@@ -85,6 +94,33 @@ public class LaohuangliService {
             logService.insertLog(date, result);
 
             return result;
+        }
+    }
+
+    public String getPersonalHuangli(User user) {
+        Integer id = user.getId();
+        String userFullName = TelegramBotUtil.getUserFullName(user);
+        String prefix = userFullName + " 今日：";
+
+        LocalDate today = LocalDate.now();
+        String myHuangliKey = Config.getUsername()
+                + "_" + Command.MY_COMMAND
+                + "_" + id
+                + "_" + LocalDateTimeUtil.format(today, DatePattern.PURE_DATE_PATTERN);
+        if (redis.hasKey(myHuangliKey)) {
+            return prefix + redis.get(myHuangliKey).toString();
+        } else {
+            String randomSeed = LocalDateTimeUtil.format(today, DatePattern.PURE_DATE_PATTERN)
+                    + id
+                    + Config.getToken().replace(":", "");
+            List<Yiji> yijiList = yijiService.getYijiRandom(randomSeed, 2);
+            StringBuilder sb = new StringBuilder();
+            sb.append("宜").append(yijiList.get(0).getYi()).append("，")
+                    .append("忌").append(yijiList.get(1).getJi()).append("。");
+            String result = sb.toString();
+
+            redis.set(myHuangliKey, result, RedisUtil.DAYS);
+            return prefix + result;
         }
     }
 }

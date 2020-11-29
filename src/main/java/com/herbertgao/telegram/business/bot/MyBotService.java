@@ -65,21 +65,24 @@ public class MyBotService {
 
             if (message.isCommand()) {
 
+                String msg = "";
                 if (TelegramBotUtil.isMatchCommand(text, Command.LAOHUANGLI_COMMAND)) {
-                    String msg = messageService.getLaohuangli();
-                    SendMessage sendMessage = new SendMessage();
-                    sendMessage.setChatId(chatId);
-                    sendMessage.setText(msg);
-                    sendMessage.enableHtml(true);
-                    sendMessage.setReplyToMessageId(message.getMessageId());
-
-                    try {
-                        absSender.execute(sendMessage);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
+                    msg = messageService.getLaohuangli();
+                } else if (TelegramBotUtil.isMatchCommand(text, Command.MY_COMMAND)) {
+                    msg = messageService.getMyHuangli(user);
                 }
 
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(chatId);
+                sendMessage.setText(msg);
+                sendMessage.enableHtml(true);
+                sendMessage.setReplyToMessageId(message.getMessageId());
+
+                try {
+                    absSender.execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
