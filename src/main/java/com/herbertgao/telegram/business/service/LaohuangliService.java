@@ -60,8 +60,12 @@ public class LaohuangliService {
                         .append("，")
                         .append("星期").append(chineseNumber[date.getDayOfWeek().getValue() - 1])
                         .append("，")
-                        .append("农历").append(lunar.getLmonth()).append(lunar.getLday())
-                        .append("。\n")
+                        .append("农历").append(lunar.getLmonth()).append(lunar.getLday());
+                if (StringUtils.isNotBlank(lunar.getSolartermname())) {
+                    sb.append("，")
+                            .append(lunar.getSolartermname());
+                }
+                sb.append("。\n")
                         .append("干支：")
                         .append(lunar.getTiangandizhiyear()).append("年")
                         .append("，")
