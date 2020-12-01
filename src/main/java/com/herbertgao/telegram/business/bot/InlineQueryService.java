@@ -56,7 +56,7 @@ public class InlineQueryService {
         AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
         answerInlineQuery.setInlineQueryId(inlineQueryId);
         answerInlineQuery.setResults(resultList);
-        answerInlineQuery.setCacheTime(60);
+        answerInlineQuery.setCacheTime(0);
         return answerInlineQuery;
     }
 }
