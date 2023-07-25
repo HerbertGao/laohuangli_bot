@@ -10,7 +10,8 @@
 
 
 ## Introduction
-高考倒计时 @laohuangli_bot 是一个 Telegram Bot，可以实现通过发送 Message、Inline Query 方式获取当前时间的高考倒计时。
+青年每日生活指导，邪恶枪版人间指南。心诚则不一定灵。TG第一山寨老黄历。
+青年老黄历 @laohuangli_bot 是一个 Telegram Bot，可以实现通过发送 Message、Inline Query 方式获取当前日期的老黄历。
 
 ## Thanks to
 - [rubenlagus / TelegramBots](https://github.com/rubenlagus/TelegramBots)
