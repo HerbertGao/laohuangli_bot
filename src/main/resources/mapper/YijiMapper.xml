@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.herbertgao.telegram.bot.laohuangli.database.mapper.YijiMapper">
+  <resultMap id="BaseResultMap" type="com.herbertgao.telegram.bot.laohuangli.database.entity.Yiji">
+    <!--@mbg.generated-->
+    <!--@Table laohuangli.yiji-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="catalog" jdbcType="VARCHAR" property="catalog" />
+    <result column="yi" jdbcType="VARCHAR" property="yi" />
+    <result column="ji" jdbcType="VARCHAR" property="ji" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `catalog`, yi, ji
+  </sql>
+</mapper>

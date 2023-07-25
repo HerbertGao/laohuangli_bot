@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.herbertgao.telegram.bot.laohuangli.database.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="com.herbertgao.telegram.bot.laohuangli.database.entity.Log">
+    <!--@mbg.generated-->
+    <!--@Table laohuangli.log-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="date" jdbcType="DATE" property="date" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `date`, content
+  </sql>
+</mapper>

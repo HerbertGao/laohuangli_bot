@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.herbertgao.telegram.bot.laohuangli.database.mapper.LunarMapper">
+  <resultMap id="BaseResultMap" type="com.herbertgao.telegram.bot.laohuangli.database.entity.Lunar">
+    <!--@mbg.generated-->
+    <!--@Table laohuangli.lunar-->
+    <id column="GregorianDateTime" jdbcType="DATE" property="gregoriandatetime" />
+    <result column="LunarDateTime" jdbcType="VARCHAR" property="lunardatetime" />
+    <result column="LunarShow" jdbcType="VARCHAR" property="lunarshow" />
+    <result column="IsJieJia" jdbcType="SMALLINT" property="isjiejia" />
+    <result column="LJie" jdbcType="VARCHAR" property="ljie" />
+    <result column="GJie" jdbcType="VARCHAR" property="gjie" />
+    <result column="Yi" jdbcType="VARCHAR" property="yi" />
+    <result column="Ji" jdbcType="VARCHAR" property="ji" />
+    <result column="ShenWei" jdbcType="VARCHAR" property="shenwei" />
+    <result column="Taishen" jdbcType="VARCHAR" property="taishen" />
+    <result column="Chong" jdbcType="VARCHAR" property="chong" />
+    <result column="SuiSha" jdbcType="VARCHAR" property="suisha" />
+    <result column="WuxingJiazi" jdbcType="VARCHAR" property="wuxingjiazi" />
+    <result column="WuxingNaYear" jdbcType="VARCHAR" property="wuxingnayear" />
+    <result column="WuxingNaMonth" jdbcType="VARCHAR" property="wuxingnamonth" />
+    <result column="WuxingNaDay" jdbcType="VARCHAR" property="wuxingnaday" />
+    <result column="MoonName" jdbcType="VARCHAR" property="moonname" />
+    <result column="XingEast" jdbcType="VARCHAR" property="xingeast" />
+    <result column="XingWest" jdbcType="VARCHAR" property="xingwest" />
+    <result column="PengZu" jdbcType="VARCHAR" property="pengzu" />
+    <result column="JianShen" jdbcType="VARCHAR" property="jianshen" />
+    <result column="TianGanDiZhiYear" jdbcType="VARCHAR" property="tiangandizhiyear" />
+    <result column="TianGanDiZhiMonth" jdbcType="VARCHAR" property="tiangandizhimonth" />
+    <result column="TianGanDiZhiDay" jdbcType="VARCHAR" property="tiangandizhiday" />
+    <result column="LMonthName" jdbcType="VARCHAR" property="lmonthname" />
+    <result column="LYear" jdbcType="VARCHAR" property="lyear" />
+    <result column="LMonth" jdbcType="VARCHAR" property="lmonth" />
+    <result column="LDay" jdbcType="VARCHAR" property="lday" />
+    <result column="SolarTermName" jdbcType="VARCHAR" property="solartermname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    GregorianDateTime, LunarDateTime, LunarShow, IsJieJia, LJie, GJie, Yi, Ji, ShenWei, 
+    Taishen, Chong, SuiSha, WuxingJiazi, WuxingNaYear, WuxingNaMonth, WuxingNaDay, MoonName, 
+    XingEast, XingWest, PengZu, JianShen, TianGanDiZhiYear, TianGanDiZhiMonth, TianGanDiZhiDay, 
+    LMonthName, LYear, LMonth, LDay, SolarTermName
+  </sql>
+</mapper>
