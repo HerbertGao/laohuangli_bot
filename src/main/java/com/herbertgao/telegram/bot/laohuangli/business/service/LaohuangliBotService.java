@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
  * 我的机器人服务
@@ -27,7 +27,7 @@ public class LaohuangliBotService {
 
     @Lazy
     @Autowired
-    private AbsSender absSender;
+    private TelegramClient telegramClient;
 
     @Autowired
     private InlineQueryService inlineQueryService;
@@ -44,7 +44,7 @@ public class LaohuangliBotService {
 
         try {
             AnswerInlineQuery results = inlineQueryService.answerInlineQuery(inlineQuery);
-            absSender.execute(results);
+            telegramClient.execute(results);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -73,16 +73,21 @@ public class LaohuangliBotService {
                     msg = messageService.getMyHuangli(user);
                 }
 
-                SendMessage sendMessage = new SendMessage();
-                sendMessage.setChatId(chatId);
-                sendMessage.setText(msg);
-                sendMessage.enableHtml(true);
-                sendMessage.setReplyToMessageId(message.getMessageId());
+                if (msg != null && !msg.trim().isEmpty()) {
+                    SendMessage sendMessage = SendMessage.builder()
+                            .chatId(chatId)
+                            .text(msg)
+                            .parseMode("HTML")
+                            .replyToMessageId(message.getMessageId())
+                            .build();
 
-                try {
-                    absSender.execute(sendMessage);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
+                    try {
+                        telegramClient.execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        log.error("发送消息失败: {}", e.getMessage(), e);
+                    }
+                } else {
+                    log.debug("忽略未定义的命令: {}", text);
                 }
             }
         }

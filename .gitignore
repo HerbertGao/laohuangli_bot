@@ -35,3 +35,5 @@ build/
 /src/main/resources/application-dev.yml
 /src/main/resources/application-online.yml
 /src/main/resources/application-online-beta.yml
+
+.history/

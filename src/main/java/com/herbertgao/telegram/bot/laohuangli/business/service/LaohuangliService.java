@@ -1,10 +1,9 @@
 package com.herbertgao.telegram.bot.laohuangli.business.service;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.crypto.SecureUtil;
 import com.herbertgao.telegram.bot.laohuangli.business.common.constant.Config;
+import com.herbertgao.telegram.bot.laohuangli.business.common.util.DateUtil;
+import com.herbertgao.telegram.bot.laohuangli.business.common.util.RandomUtil;
+import com.herbertgao.telegram.bot.laohuangli.business.common.util.SecureUtil;
 import com.herbertgao.telegram.bot.laohuangli.business.common.util.TelegramBotUtil;
 import com.herbertgao.telegram.bot.laohuangli.database.entity.Log;
 import com.herbertgao.telegram.bot.laohuangli.database.entity.Lunar;
@@ -108,7 +107,7 @@ public class LaohuangliService {
                     .append("。\n");
         }
 
-        String randomSeed = LocalDateTimeUtil.format(date, DatePattern.PURE_DATE_PATTERN)
+        String randomSeed = DateUtil.formatPureDate(date)
                 + Config.token.replace(":", "");
         randomSeed = SecureUtil.md5(randomSeed);
         int seed = RandomUtil.createSecureRandom(randomSeed.getBytes()).nextInt();
@@ -156,7 +155,7 @@ public class LaohuangliService {
         String prefix = userFullName + " 今日：";
 
         LocalDate today = LocalDate.now();
-        String randomSeed = LocalDateTimeUtil.format(today, DatePattern.PURE_DATE_PATTERN)
+        String randomSeed = DateUtil.formatPureDate(today)
                 + id
                 + Config.token.replace(":", "");
         randomSeed = SecureUtil.md5(randomSeed);

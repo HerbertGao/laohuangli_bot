@@ -32,32 +32,31 @@ public class InlineQueryService {
         User user = inlineQuery.getFrom();
         String query = inlineQuery.getQuery();
 
-        InlineQueryResultArticle r = new InlineQueryResultArticle();
-        r.setId(IdUtil.getId().toString());
-        r.setTitle("今日青年老黄历");
-        r.setInputMessageContent(new InputTextMessageContent() {
-            {
-                setMessageText(laohuangliService.getLog());
-            }
-        });
+        InlineQueryResultArticle r = InlineQueryResultArticle.builder()
+                .id(IdUtil.getId().toString())
+                .title("今日青年老黄历")
+                .inputMessageContent(InputTextMessageContent.builder()
+                        .messageText(laohuangliService.getLog())
+                        .build())
+                .build();
         resultList.add(r);
 
-        InlineQueryResultArticle r1 = new InlineQueryResultArticle();
-        r1.setId(IdUtil.getId().toString());
-        r1.setTitle("今日我的老黄历");
-        r1.setInputMessageContent(new InputTextMessageContent() {
-            {
-                setMessageText(laohuangliService.getPersonalLog(user));
-            }
-        });
+        InlineQueryResultArticle r1 = InlineQueryResultArticle.builder()
+                .id(IdUtil.getId().toString())
+                .title("今日我的老黄历")
+                .inputMessageContent(InputTextMessageContent.builder()
+                        .messageText(laohuangliService.getPersonalLog(user))
+                        .build())
+                .build();
         resultList.add(r1);
 
         String inlineQueryId = inlineQuery.getId();
 
-        AnswerInlineQuery answerInlineQuery = new AnswerInlineQuery();
-        answerInlineQuery.setInlineQueryId(inlineQueryId);
-        answerInlineQuery.setResults(resultList);
-        answerInlineQuery.setCacheTime(0);
+        AnswerInlineQuery answerInlineQuery = AnswerInlineQuery.builder()
+                .inlineQueryId(inlineQueryId)
+                .results(resultList)
+                .cacheTime(0)
+                .build();
         return answerInlineQuery;
     }
 }

@@ -5,9 +5,8 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Slf4j
 @Component
@@ -19,8 +18,8 @@ public class BotRegister {
     @PostConstruct
     public void init() {
         try {
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotsApi.registerBot(laohuangliBot);
+            TelegramBotsLongPollingApplication telegramBotsApi = new TelegramBotsLongPollingApplication();
+            telegramBotsApi.registerBot(laohuangliBot.getBotToken(), laohuangliBot);
         } catch (TelegramApiException e) {
             log.error(e.getMessage());
         }

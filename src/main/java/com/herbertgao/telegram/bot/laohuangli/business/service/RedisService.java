@@ -1,8 +1,8 @@
 package com.herbertgao.telegram.bot.laohuangli.business.service;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
 import com.alibaba.fastjson2.JSON;
 import com.herbertgao.telegram.bot.laohuangli.business.common.constant.RedisConstant;
+import com.herbertgao.telegram.bot.laohuangli.business.common.util.DateUtil;
 import com.herbertgao.telegram.bot.laohuangli.business.common.util.RedisUtil;
 import com.herbertgao.telegram.bot.laohuangli.database.entity.Log;
 import com.herbertgao.telegram.bot.laohuangli.database.service.LogService;
@@ -23,7 +23,7 @@ public class RedisService {
     private LogService logService;
 
     public Log getLogByDate(LocalDate date) {
-        String redisKey = RedisConstant.LOG + LocalDateTimeUtil.formatNormal(date);
+        String redisKey = RedisConstant.LOG + DateUtil.formatNormal(date);
         if (RedisUtil.hasKey(redisKey)) {
             return JSON.parseObject(RedisUtil.get(redisKey), Log.class);
         } else {
@@ -32,12 +32,12 @@ public class RedisService {
     }
 
     public void setLogByDate(Log log, LocalDate date) {
-        String redisKey = RedisConstant.LOG + LocalDateTimeUtil.formatNormal(date);
+        String redisKey = RedisConstant.LOG + DateUtil.formatNormal(date);
         RedisUtil.set(redisKey, JSON.toJSONString(log));
     }
 
     public String getPersonalLog(LocalDate date, User user) {
-        String redisKey = RedisConstant.PERSONAL_LOG + LocalDateTimeUtil.formatNormal(date) + ":" + user.getId();
+        String redisKey = RedisConstant.PERSONAL_LOG + DateUtil.formatNormal(date) + ":" + user.getId();
         if (RedisUtil.hasKey(redisKey)) {
             return RedisUtil.get(redisKey);
         } else {
@@ -46,7 +46,7 @@ public class RedisService {
     }
 
     public void setPersonalLog(LocalDate date, User user, String logContent) {
-        String redisKey = RedisConstant.PERSONAL_LOG + LocalDateTimeUtil.formatNormal(date) + ":" + user.getId();
+        String redisKey = RedisConstant.PERSONAL_LOG + DateUtil.formatNormal(date) + ":" + user.getId();
         RedisUtil.set(redisKey, logContent);
     }
 

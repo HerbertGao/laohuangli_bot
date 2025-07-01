@@ -1,11 +1,13 @@
 package com.herbertgao.telegram.bot.laohuangli.business.common.util;
 
-import cn.hutool.core.util.ReUtil;
 import com.herbertgao.telegram.bot.laohuangli.business.common.constant.Command;
 import com.herbertgao.telegram.bot.laohuangli.business.common.constant.Config;
 import org.apache.commons.lang3.StringUtils;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @program: laohuangli_bot
@@ -16,7 +18,10 @@ import org.telegram.telegrambots.meta.api.objects.User;
 public class TelegramBotUtil {
 
     public static Boolean isMatchCommand(String text, String command) {
-        return command.equals(ReUtil.get(Command.COMMAND_REGEX, text, 0));
+        if (StringUtils.isBlank(text) || StringUtils.isBlank(command)) {
+            return false;
+        }
+        return text.matches("^" + command + ".*");
     }
 
     /**

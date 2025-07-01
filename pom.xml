@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
+        <!-- lookup parent from repository -->
     </parent>
     <groupId>com.herbertgao</groupId>
     <artifactId>laohuangli_bot</artifactId>
@@ -18,11 +19,11 @@
         <resource.delimiter>@</resource.delimiter>
         <spring.profiles.active>template</spring.profiles.active>
 
-        <revision>7.0.0</revision>
+        <revision>8.0.0</revision>
 
         <springboot.version>3.1.0</springboot.version>
 
-        <telegrambot.version>6.9.7.1</telegrambot.version>
+        <telegrambot.version>9.0.0</telegrambot.version>
 
         <mysql.version>8.0.30</mysql.version>
         <mybatis-plus.version>3.5.12</mybatis-plus.version>
@@ -30,10 +31,10 @@
 
         <lombok.version>1.18.38</lombok.version>
         <common.lang.version>3.17.0</common.lang.version>
+        <common.codec.version>1.18.0</common.codec.version>
         <common.collections.version>4.5.0</common.collections.version>
         <common.pool.version>2.12.1</common.pool.version>
         <fastjson2.version>2.0.57</fastjson2.version>
-        <hutool.version>5.8.39</hutool.version>
 
         <native-build-tools-plugin.version>0.9.28</native-build-tools-plugin.version>
         <docker.build.directory>${project.build.directory}/docker/local</docker.build.directory>
@@ -70,9 +71,17 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Telegram Bot API 7.0+ 依赖 -->
         <dependency>
             <groupId>org.telegram</groupId>
-            <artifactId>telegrambots</artifactId>
+            <artifactId>telegrambots-longpolling</artifactId>
+            <version>${telegrambot.version}</version>
+        </dependency>
+
+        <!-- 客户端实现 -->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-client</artifactId>
             <version>${telegrambot.version}</version>
         </dependency>
 
@@ -109,6 +118,11 @@
             <version>${common.lang.version}</version>
         </dependency>
         <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${common.codec.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>${common.collections.version}</version>
@@ -134,12 +148,6 @@
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2-extension-spring6</artifactId>
             <version>${fastjson2.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
         </dependency>
 
     </dependencies>
