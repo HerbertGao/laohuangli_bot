@@ -27,7 +27,7 @@ public class DailySendTask {
     @Lazy
     @Autowired
     private TelegramClient telegramClient;
-    
+
     @Value("${telegram.channel.id}")
     private String channelId;
 
