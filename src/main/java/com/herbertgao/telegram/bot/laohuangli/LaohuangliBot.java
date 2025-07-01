@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 
@@ -18,22 +18,22 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
  */
 @Slf4j
 @Component
-public class LaohuangliBot extends TelegramLongPollingBot {
+public class LaohuangliBot implements LongPollingSingleThreadUpdateConsumer {
 
     private final String botUsername;
+    private final String botToken;
 
     @Autowired
     private LaohuangliBotService laohuangliBotService;
 
     public LaohuangliBot(@Value("${telegram.bot.username}") String botUsername,
                          @Value("${telegram.bot.token}") String botToken) {
-        super(botToken);
         this.botUsername = botUsername;
+        this.botToken = botToken;
     }
 
-
     @Override
-    public void onUpdateReceived(Update update) {
+    public void consume(Update update) {
         log.debug(update.toString());
 
         if (update.hasInlineQuery()) {
@@ -45,8 +45,11 @@ public class LaohuangliBot extends TelegramLongPollingBot {
         }
     }
 
-    @Override
     public String getBotUsername() {
         return botUsername;
+    }
+
+    public String getBotToken() {
+        return botToken;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class YijiService extends ServiceImpl<YijiMapper, Yiji> {
@@ -16,51 +17,71 @@ public class YijiService extends ServiceImpl<YijiMapper, Yiji> {
 
     public List<Yiji> getDailyYijiRandom(int seed) {
         List<Yiji> result = new ArrayList<>();
+        Random random = new Random(seed);
 
-        // 宜
-        for (String s : CATALOG_LIST) {
+        // 宜 - 按分类选择
+        for (String catalog : CATALOG_LIST) {
             QueryWrapper<Yiji> wrapper = new QueryWrapper<>();
             wrapper.lambda()
-                    .eq(Yiji::getCatalog, s)
+                    .eq(Yiji::getCatalog, catalog)
                     .isNotNull(Yiji::getYi);
-            wrapper.orderByAsc(" rand('" + seed + "') ")
-                    .last("limit 1");
             List<Yiji> yijiList = this.list(wrapper);
-            result.addAll(yijiList);
+            
+            if (!yijiList.isEmpty()) {
+                // 在应用层随机选择
+                int randomIndex = random.nextInt(yijiList.size());
+                result.add(yijiList.get(randomIndex));
+            }
         }
 
-        // 忌
+        // 忌 - 排除已选择的宜项
         List<Integer> existIdList = new ArrayList<>();
         result.forEach(yiji -> existIdList.add(yiji.getId()));
+        
         QueryWrapper<Yiji> wrapper = new QueryWrapper<>();
         wrapper.lambda()
                 .notIn(Yiji::getId, existIdList)
                 .isNotNull(Yiji::getJi);
-        wrapper.orderByAsc(" rand('" + seed + "') ")
-                .last("limit 2");
-        List<Yiji> yijiList = this.list(wrapper);
-        result.addAll(yijiList);
+        List<Yiji> jiList = this.list(wrapper);
+        
+        // 随机选择2个忌项
+        for (int i = 0; i < 2 && !jiList.isEmpty(); i++) {
+            int randomIndex = random.nextInt(jiList.size());
+            result.add(jiList.get(randomIndex));
+            jiList.remove(randomIndex); // 避免重复选择
+        }
 
         return result;
     }
 
     public List<Yiji> getYijiRandom(int seed, Integer count) {
-        List<Yiji> yijiList = new ArrayList<>();
-        int n = 0;
-        while (n < count) {
-            QueryWrapper<Yiji> wrapper = new QueryWrapper<>();
-            if (n % 2 == 0) {
-                wrapper.lambda().isNotNull(Yiji::getYi);
-            } else {
-                wrapper.lambda().isNotNull(Yiji::getJi);
+        List<Yiji> result = new ArrayList<>();
+        Random random = new Random(seed);
+
+        // 分别获取宜和忌的数据
+        QueryWrapper<Yiji> yiWrapper = new QueryWrapper<>();
+        yiWrapper.lambda().isNotNull(Yiji::getYi);
+        List<Yiji> yiList = this.list(yiWrapper);
+
+        QueryWrapper<Yiji> jiWrapper = new QueryWrapper<>();
+        jiWrapper.lambda().isNotNull(Yiji::getJi);
+        List<Yiji> jiList = this.list(jiWrapper);
+
+        // 在应用层随机选择
+        for (int i = 0; i < count; i++) {
+            if (i % 2 == 0 && !yiList.isEmpty()) {
+                // 选择宜项
+                int randomIndex = random.nextInt(yiList.size());
+                result.add(yiList.get(randomIndex));
+                yiList.remove(randomIndex); // 避免重复选择
+            } else if (!jiList.isEmpty()) {
+                // 选择忌项
+                int randomIndex = random.nextInt(jiList.size());
+                result.add(jiList.get(randomIndex));
+                jiList.remove(randomIndex); // 避免重复选择
             }
-            wrapper.orderByAsc(" rand('" + seed + n + "') ")
-                    .last("limit 1");
-            yijiList.addAll(this.list(wrapper));
-            n++;
         }
-        return yijiList;
+
+        return result;
     }
-
-
 }
