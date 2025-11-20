@@ -1,0 +1,50 @@
+[package]
+name = "laohuangli_bot"
+version = "10.0.0"
+edition = "2024"
+
+[dependencies]
+# Telegram Bot 框架
+teloxide = { version = "0.17.0", features = ["macros"] }
+
+# 异步运行时
+tokio = { version = "1", features = ["full"] }
+
+# 数据库
+sqlx = { version = "0.8.6", features = ["runtime-tokio-native-tls", "mysql", "chrono"] }
+
+# Redis
+redis = { version = "0.32.7", features = ["tokio-comp"] }
+
+# 定时任务
+tokio-cron-scheduler = "0.15.1"
+
+# 日期时间
+chrono = { version = "0.4", features = ["serde"] }
+
+# 序列化
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# 配置管理
+dotenv = "0.15"
+
+# 日志
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# 工具库
+md5 = "0.8.0"
+rand = "0.9.2"
+
+# HTTP 客户端
+reqwest = { version = "0.12", features = ["json"] }
+
+# 错误处理
+anyhow = "1.0"
+
+# UUID 生成
+uuid = { version = "1.0", features = ["v4"] }
+
+# 命令行参数解析
+clap = { version = "4.5", features = ["derive"] }

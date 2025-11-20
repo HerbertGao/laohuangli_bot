@@ -1,0 +1,105 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            artifact_name: laohuangli_bot_linux_x86_64
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            artifact_name: laohuangli_bot_linux_arm64
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            artifact_name: laohuangli_bot_macos_arm64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install cross-compilation dependencies (Linux ARM64)
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+          sudo apt-get install -y libc6-dev-arm64-cross
+
+      - name: Build release (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          if [ "${{ matrix.target }}" = "aarch64-unknown-linux-gnu" ]; then
+            export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
+            cargo build --release --target ${{ matrix.target }}
+          else
+            cargo build --release --target ${{ matrix.target }}
+          fi
+
+      - name: Build release (macOS)
+        if: matrix.os == 'macos-latest'
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Rename binary for platform (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          if [ "${{ matrix.target }}" = "x86_64-unknown-linux-gnu" ]; then
+            cp target/${{ matrix.target }}/release/laohuangli_bot laohuangli_bot_linux_x86_64
+          elif [ "${{ matrix.target }}" = "aarch64-unknown-linux-gnu" ]; then
+            cp target/${{ matrix.target }}/release/laohuangli_bot laohuangli_bot_linux_arm64
+          fi
+
+      - name: Rename binary for platform (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          if [ "${{ matrix.target }}" = "aarch64-apple-darwin" ]; then
+            cp target/${{ matrix.target }}/release/laohuangli_bot laohuangli_bot_macos_arm64
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: laohuangli_bot_*
+
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+      packages: write
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            laohuangli_bot_linux_x86_64/laohuangli_bot_linux_x86_64
+            laohuangli_bot_linux_arm64/laohuangli_bot_linux_arm64
+            laohuangli_bot_macos_arm64/laohuangli_bot_macos_arm64
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
