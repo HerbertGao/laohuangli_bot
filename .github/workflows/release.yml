@@ -19,18 +19,32 @@ jobs:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             artifact_name: laohuangli_bot_linux_x86_64
+            container: ubuntu:20.04
           - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             artifact_name: laohuangli_bot_linux_arm64
+            container: ubuntu:20.04
           - os: macos-latest
             target: aarch64-apple-darwin
             artifact_name: laohuangli_bot_macos_arm64
+            container: null
+
+    container: ${{ matrix.container }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Rust toolchain
+      - name: Install build dependencies (Linux container)
+        if: matrix.container
+        run: |
+          apt-get update
+          apt-get install -y curl gcc g++ make
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Setup Rust toolchain (non-container)
+        if: "!matrix.container"
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
@@ -38,13 +52,14 @@ jobs:
       - name: Install cross-compilation dependencies (Linux ARM64)
         if: matrix.target == 'aarch64-unknown-linux-gnu'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
-          sudo apt-get install -y libc6-dev-arm64-cross
+          apt-get update
+          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu libc6-dev-arm64-cross
 
       - name: Build release (Linux)
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.container
         run: |
+          . $HOME/.cargo/env
+          rustup target add ${{ matrix.target }}
           if [ "${{ matrix.target }}" = "aarch64-unknown-linux-gnu" ]; then
             export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
             cargo build --release --target ${{ matrix.target }}
@@ -57,7 +72,7 @@ jobs:
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Rename binary for platform (Linux)
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.container
         run: |
           if [ "${{ matrix.target }}" = "x86_64-unknown-linux-gnu" ]; then
             cp target/${{ matrix.target }}/release/laohuangli_bot laohuangli_bot_linux_x86_64
