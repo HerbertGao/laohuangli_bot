@@ -21,6 +21,7 @@ tokio-cron-scheduler = "0.15.1"
 
 # 日期时间
 chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.9"
 
 # 序列化
 serde = { version = "1.0", features = ["derive"] }
